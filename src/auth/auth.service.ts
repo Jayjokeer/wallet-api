@@ -23,39 +23,33 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponseDto> {
-    // Check uniqueness before hashing (fast fail)
     const exists = await this.usersService.existsByEmail(dto.email);
     if (exists) throw new ConflictException('Email already registered');
 
-    // Hash password with argon2id (memory-hard, OWASP recommended)
     const hashedPassword = await argon2.hash(dto.password, {
       type: argon2.argon2id,
-      memoryCost: 65536,  // 64 MB
+      memoryCost: 65536,  
       timeCost: 3,
       parallelism: 4,
     });
 
-    // Create user (role defaults to 'user' — mass assignment protection)
     const user = await this.usersService.create({
       email: dto.email.toLowerCase().trim(),
       password: hashedPassword,
-      role: UserRole.USER, // always forced to USER on registration
+      role: UserRole.USER, 
     });
 
-    // Auto-create wallet for new user
     await this.walletService.createWallet(user.id);
 
     return this.issueTokens(user.id, user.email, user.role);
   }
 
   async login(dto: LoginDto): Promise<AuthResponseDto> {
-    // Fetch user with password (normally excluded by select:false)
     const user = await this.usersService.findByEmailWithPassword(
       dto.email.toLowerCase().trim(),
     );
 
-    // Constant-time comparison prevents timing attacks
-    // We always run argon2.verify even if user not found (dummy hash)
+
     const dummyHash = '$argon2id$v=19$m=65536,t=3,p=4$dummysalt$dummyhash';
     const passwordToVerify = user?.password ?? dummyHash;
 
@@ -119,7 +113,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
-      expiresIn: 900, // 15 minutes in seconds
+      expiresIn: 900, 
     };
   }
 }

@@ -35,11 +35,7 @@ const buildMockTransaction = (overrides = {}) => ({
   ...overrides,
 });
 
-// ── QueryRunner factory ───────────────────────────────────────────────────────
-/**
- * Creates a fresh mock QueryRunner for each test.
- * All methods are individually spied so tests can assert call order and args.
- */
+
 const buildMockQueryRunner = () => ({
   connect: jest.fn().mockResolvedValue(undefined),
   startTransaction: jest.fn().mockResolvedValue(undefined),

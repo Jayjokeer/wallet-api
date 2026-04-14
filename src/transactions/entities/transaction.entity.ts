@@ -49,7 +49,6 @@ export class Transaction {
   @CreateDateColumn()
   createdAt: Date;
 
-  // Relation
   @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
   @JoinColumn({ name: 'walletId' })
   wallet: Wallet;

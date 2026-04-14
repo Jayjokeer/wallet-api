@@ -12,11 +12,10 @@ async function bootstrap() {
         : ['error', 'warn', 'log', 'debug'],
   });
 
-  // Global prefix
   app.setGlobalPrefix('api/v1');
 
   app.useGlobalPipes(
-    new ValidationPipe({
+    new ValidationPipe({ 
       whitelist: true,        
       forbidNonWhitelisted: true, 
       transform: true,        
@@ -26,10 +25,8 @@ async function bootstrap() {
     }),
   );
 
-  // Global exception filter
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  // Swagger documentation
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
       .setTitle('Wallet API')

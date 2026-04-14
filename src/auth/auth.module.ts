@@ -30,7 +30,6 @@ import { WalletModule } from '../wallet/wallet.module';
   providers: [
     AuthService,
     JwtStrategy,
-    // Apply JwtAuthGuard globally — all routes protected unless @Public()
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

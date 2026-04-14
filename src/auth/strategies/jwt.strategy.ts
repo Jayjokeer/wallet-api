@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../../users/users.service';
 
 export interface JwtPayload {
-  sub: string;   // user id
+  sub: string;   
   email: string;
   role: string;
   type: 'access' | 'refresh';
@@ -34,6 +34,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       throw new UnauthorizedException('User no longer exists');
     }
 
-    return user; // attached to request.user
+    return user; 
   }
 }
