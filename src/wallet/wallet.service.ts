@@ -16,15 +16,9 @@ export class WalletService {
     return this.walletRepository.create(userId, currency);
   }
 
-  /**
-   * getMyWallet — enforces BOLA protection.
-   * Users can only access their own wallet.
-   * Admins can access any wallet.
-   */
   async getWallet(requestingUser: User, targetUserId?: string): Promise<Wallet> {
     const userId = targetUserId ?? requestingUser.id;
 
-    // BOLA check: non-admin users can only see their own wallet
     if (requestingUser.role !== UserRole.ADMIN && userId !== requestingUser.id) {
       throw new ForbiddenException('Access denied');
     }

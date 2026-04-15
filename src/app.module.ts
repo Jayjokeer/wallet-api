@@ -12,13 +12,11 @@ import { Transaction } from './transactions/entities/transaction.entity';
 
 @Module({
   imports: [
-    // Config — loads .env
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
 
-    // TypeORM — MySQL connection
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -31,11 +29,10 @@ import { Transaction } from './transactions/entities/transaction.entity';
         database: config.get('DB_NAME', 'wallet_db'),
         entities: [User, Wallet, Transaction],
         migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
-        migrationsRun: false, // run via CLI
-        synchronize: false,   // NEVER true in production
+        migrationsRun: false, 
+        synchronize: false,   
         logging: config.get('NODE_ENV') !== 'production',
         extra: {
-          // Connection pool settings for concurrency
           connectionLimit: 20,
           waitForConnections: true,
           queueLimit: 0,

@@ -30,18 +30,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
       } else if (typeof exceptionResponse === 'object') {
         const resp = exceptionResponse as any;
         message = resp.message || message;
-        // class-validator returns array of messages
         if (Array.isArray(resp.message)) {
           errors = resp.message;
           message = 'Validation failed';
         }
       }
     } else if (exception instanceof Error) {
-      // Never expose internal error details in production
       if (process.env.NODE_ENV !== 'production') {
         message = exception.message;
       }
-      // Log the real error for ops — but never send stack trace to client
       this.logger.error(
         `Unhandled exception: ${exception.message}`,
         exception.stack,

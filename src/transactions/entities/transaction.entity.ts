@@ -37,7 +37,7 @@ export class Transaction {
   type: TransactionType;
 
   @Column({ type: 'decimal', precision: 18, scale: 2 })
-  amount: string; // stored as string from MySQL decimal
+  amount: string; 
 
   @Column({ type: 'enum', enum: TransactionStatus, default: TransactionStatus.PENDING })
   status: TransactionStatus;

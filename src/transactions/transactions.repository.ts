@@ -10,10 +10,6 @@ export class TransactionsRepository {
     private readonly repo: Repository<Transaction>,
   ) {}
 
-  /**
-   * findByIdempotencyKey — used to detect duplicate requests.
-   * Uses the QueryRunner's manager so it participates in the same transaction.
-   */
   async findByIdempotencyKey(
     idempotencyKey: string,
     queryRunner: QueryRunner,
@@ -23,10 +19,7 @@ export class TransactionsRepository {
     });
   }
 
-  /**
-   * createPending — inserts the transaction record in PENDING state
-   * within the active DB transaction.
-   */
+ 
   async createPending(
     data: {
       reference: string;
@@ -44,9 +37,7 @@ export class TransactionsRepository {
     return queryRunner.manager.save(Transaction, tx);
   }
 
-  /**
-   * updateStatus — updates transaction status within the active DB transaction.
-   */
+
   async updateStatus(
     id: string,
     status: TransactionStatus,

@@ -40,7 +40,6 @@ describe('WalletService', () => {
     });
 
     it('should throw ForbiddenException when user requests another users wallet', async () => {
-      // User B tries to access User A's wallet — BOLA attack
       await expect(
         service.getWallet(userB as any, userA.id),
       ).rejects.toThrow(ForbiddenException);

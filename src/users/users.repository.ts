@@ -19,10 +19,7 @@ export class UsersRepository {
     return this.repo.findOne({ where: { email } });
   }
 
-  /**
-   * findByEmailWithPassword — explicitly selects password field
-   * (password column has select:false by default for safety)
-   */
+ 
   async findByEmailWithPassword(email: string): Promise<User | null> {
     return this.repo
       .createQueryBuilder('user')

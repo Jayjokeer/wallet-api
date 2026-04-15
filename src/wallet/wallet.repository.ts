@@ -23,14 +23,6 @@ export class WalletRepository {
     return this.repo.findOne({ where: { id } });
   }
 
-  /**
-   * findByIdWithLock — acquires a pessimistic write lock on the wallet row.
-   * This MUST be called inside an active QueryRunner transaction.
-   * Prevents race conditions: two concurrent debits on the same wallet
-   * will queue at the DB level — only one proceeds at a time.
-   *
-   * MySQL InnoDB: SELECT ... FOR UPDATE
-   */
   async findByIdWithLock(walletId: string, queryRunner: QueryRunner): Promise<Wallet | null> {
     return queryRunner.manager
       .createQueryBuilder(Wallet, 'wallet')

@@ -26,9 +26,8 @@ export class Wallet {
     precision: 18,
     scale: 2,
     default: '0.00',
-    // Note: TypeORM returns decimals as strings from MySQL — we parse in service
   })
-  balance: string; // stored as string, parsed to number in service layer
+  balance: string; 
 
   @Column({ type: 'varchar', length: 10, default: 'NGN' })
   currency: string;
