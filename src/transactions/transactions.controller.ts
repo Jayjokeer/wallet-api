@@ -31,7 +31,6 @@ export class TransactionsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  // Strict rate limit on transaction endpoint — 20 per minute
   @Throttle({ short: { limit: 20, ttl: 60000 } })
   @ApiOperation({
     summary: 'Create a credit or debit transaction',

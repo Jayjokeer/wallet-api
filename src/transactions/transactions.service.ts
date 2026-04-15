@@ -80,7 +80,6 @@ export class TransactionsService {
 
       if (dto.type === TransactionType.DEBIT) {
         if (currentBalance < amount) {
-          // Insufficient funds — mark FAILED, commit so idempotency record is saved
           await this.transactionsRepository.updateStatus(
             transaction.id,
             TransactionStatus.FAILED,

@@ -40,7 +40,6 @@ import { Transaction } from './transactions/entities/transaction.entity';
       }),
     }),
 
-    // Rate limiting — global throttler
     ThrottlerModule.forRoot([
       {
         name: 'short',
