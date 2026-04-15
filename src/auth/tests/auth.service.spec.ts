@@ -149,8 +149,10 @@ describe('AuthService', () => {
         await authService.login({ email: 'nobody@example.com', password: 'pass' });
       } catch (err) {
         expect(err.message).toBe('Invalid email or password');
-        expect(err.message).not.toContain('email');
-        expect(err.message).not.toContain('not found');
+        expect(err.message).not.toMatch(/email not found/i);
+        expect(err.message).not.toMatch(/email does not exist/i);
+        expect(err.message).not.toMatch(/user not found/i);
+        expect(err.message).not.toMatch(/no account/i);
       }
     });
   });

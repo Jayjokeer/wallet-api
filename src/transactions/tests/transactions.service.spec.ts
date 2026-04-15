@@ -35,7 +35,11 @@ const buildMockTransaction = (overrides = {}) => ({
   ...overrides,
 });
 
-
+// ── QueryRunner factory ───────────────────────────────────────────────────────
+/**
+ * Creates a fresh mock QueryRunner for each test.
+ * All methods are individually spied so tests can assert call order and args.
+ */
 const buildMockQueryRunner = () => ({
   connect: jest.fn().mockResolvedValue(undefined),
   startTransaction: jest.fn().mockResolvedValue(undefined),
@@ -328,6 +332,9 @@ describe('TransactionsService', () => {
   // ── 4. QueryRunner lifecycle ──────────────────────────────────────────────
   describe('Transaction Atomicity', () => {
     it('should rollback and release connection on unexpected error', async () => {
+      // Suppress the logger so the expected error doesn't pollute test output
+      jest.spyOn((service as any).logger, 'error').mockImplementation(() => undefined);
+
       const qr = buildMockQueryRunner();
       mockDataSource.createQueryRunner.mockReturnValue(qr);
       mockWalletService.getWalletByUserId.mockResolvedValue(mockWallet);
